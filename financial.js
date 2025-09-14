@@ -4,7 +4,7 @@ filedrag.addEventListener("dragleave", FileDragHover, false);
 filedrag.addEventListener("drop", FileSelectHandler, false);
 
 let current_year = new Date().getFullYear();
-let balance_cents = // TODO: add a starting balance as an integer of cents
+//let balance_cents = // TODO: add a starting balance as an integer of cents
 
 let report_div = document.getElementById('report');
 
@@ -50,6 +50,10 @@ function FileSelectHandler(e) {
 
 async function onFileLoad(reader, file, e) {
   let text = reader.result;
+
+  let transactions = parseOFX(text);
+  return;
+  
   let new_records = JSON.parse(text);
 
   // temp code to convert workaround JSON into the format we'll get from Quicken Simplifi
@@ -73,6 +77,48 @@ async function onFileLoad(reader, file, e) {
 
   filedrag.style.display = 'none';
 };
+
+// sample OFX files available at https://github.com/wesabe/fixofx/tree/master/test/fixtures
+function parseOFX(text) {
+  let transactions = [];
+
+  let parser = sax.parser(false);
+  let curr_tag = '';
+  let curr_trans = null;
+
+  parser.onerror = function (e) {
+    console.error(e);
+  };
+  parser.ontext = function (t) {
+    t = t.trim();
+    if (t) {
+      if (curr_tag == 'TRNTYPE')
+        curr_trans.type = t.toLowerCase();
+      else if (curr_tag == 'DTPOSTED')
+        curr_trans.date = t; // TODO: add hyphens
+      else if (curr_tag == 'TRNAMT')
+        curr_trans.amount = parseFloat(t);
+      else if (curr_tag == 'FITID')
+        curr_trans.id = t;
+      else if (curr_tag == 'NAME')
+        curr_trans.description = t;
+    }
+  };
+  parser.onopentag = function (node) {
+    curr_tag = node.name;
+    if (curr_tag == 'STMTTRN') {
+      if (curr_trans)
+        transactions.push(curr_trans);
+      curr_trans = {};
+    }
+  };
+
+  parser.write(text).close();
+  if (curr_trans)
+    transactions.push(curr_trans);
+
+  console.log(transactions);
+}
 
 function convertCategoryToCOA(obj) {
   let ix = category_name_arr.indexOf(obj.category);

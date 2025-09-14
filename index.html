@@ -2,31 +2,18 @@
 <html>
 <head>
   <title>BTC Salt Reports</title>
+  <link href="/vendor/bootstrap-5.3.8.css" rel="stylesheet">
   <style>
     body { margin: 1em }
-    table { border-collapse: collapse}
     th {
-      background-color: #eee;
+      /* Is this already handled by Bootstrap, or do we still need to do this? */
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
-    td { width: 85px }
-    table td,th { border: 1px solid #ccc; padding: 5px}
-    .amt { text-align: right }
-    th.category { text-align: left; margin-left: 1em; white-space: nowrap}
-    th.sidebar { text-align: left }
-    th.separator { height: 8px }
-    #filedrag {
-      font-weight: bold;
-      text-align: center;
-      padding: 1em 0;
-      margin: 1em 0;
-      color: #555;
-      border: 2px dashed #555;
-      border-radius: 7px;
-      cursor: default;
-    }
-
+    /*
+      this can't be done with inline CSS; we can define a data-style-hover attribute (or just style-hover?)
+      this could be implemented via manual onMouseOver or via generating a unique classname -- maybe that'd be better for the other inline styles too?
+    */
     #filedrag.hover {
       color: #2672EC;
       border-color: #2672EC;
@@ -34,13 +21,16 @@
       box-shadow: inset 0 3px 4px #888;
     }
   </style>
-  <script src="underscore.js"></script>
+  <script src="/vendor/underscore.js"></script>
+  <script src="/vendor/sax.js"></script>
 </head>
 <body>
   <h3>2024-2025 - BTC Salt</h3>
   <div id="report">
   </div>
-  <div id="filedrag">Drop JSON file here</div>
-  <script src="simplifi-reports.js"></script>
+  <div id="filedrag" style="font-weight: bold; text-align: center; padding: 1em 0; margin: 1em 0; color: #555; border: 2px dashed #555; border-radius: 7px; cursor: default">
+    Drop .OFX file here
+  </div>
+  <script src="/financial.js"></script>
 </body>
 </html>
