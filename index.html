@@ -5,7 +5,9 @@
   <link href="/vendor/bootstrap-5.3.8.css" rel="stylesheet">
   <style>
     body { margin: 1em }
+    table { border-collapse: collapse}
     th {
+      background-color: #eee;
       /* Is this already handled by Bootstrap, or do we still need to do this? */
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
@@ -20,16 +22,22 @@
       border-style: solid;
       box-shadow: inset 0 3px 4px #888;
     }
+    td { width: 85px }
+    table td,th { border: 1px solid #ccc; padding: 5px}
+    .amt { text-align: right }
+    th.category { text-align: left; margin-left: 1em; white-space: nowrap}
+    th.sidebar { text-align: left }
+    th.separator { height: 8px }
   </style>
   <script src="/vendor/underscore.js"></script>
   <script src="/vendor/sax.js"></script>
 </head>
 <body>
   <h3>2024-2025 - BTC Salt</h3>
-  <div id="report">
-  </div>
   <div id="filedrag" style="font-weight: bold; text-align: center; padding: 1em 0; margin: 1em 0; color: #555; border: 2px dashed #555; border-radius: 7px; cursor: default">
-    Drop .OFX file here
+      Drop .OFX or .QFX file here
+    </div>
+  <div id="report">
   </div>
   <script src="/financial.js"></script>
 </body>
