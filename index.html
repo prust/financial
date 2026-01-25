@@ -22,8 +22,14 @@
       border-style: solid;
       box-shadow: inset 0 3px 4px #888;
     }
+    @media print {
+      #filedrag { display: none }
+      .btn { display: none }
+    }
+
     td { width: 85px }
     table td,th { border: 1px solid #ccc; padding: 5px}
+    a.month { color: var(--bs-body-color) }
     .amt { text-align: right }
     th.category { text-align: left; margin-left: 1em; white-space: nowrap}
     th.sidebar { text-align: left }
@@ -33,11 +39,10 @@
   <script src="vendor/sax.js"></script>
 </head>
 <body>
-  <h3>2024-2025 - BTC Salt</h3>
-  <div id="filedrag" style="font-weight: bold; text-align: center; padding: 1em 0; margin: 1em 0; color: #555; border: 2px dashed #555; border-radius: 7px; cursor: default">
-      Drop .OFX or .QFX file here
-    </div>
   <div id="report">
+  </div>
+  <div id="filedrag" style="font-weight: bold; text-align: center; padding: 1em 0; margin: 1em 0; color: #555; border: 2px dashed #555; border-radius: 7px; cursor: default">
+    Drop .OFX or .QFX file here
   </div>
   <script src="financial.js"></script>
 </body>
