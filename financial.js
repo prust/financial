@@ -5,9 +5,6 @@ filedrag.addEventListener("drop", FileSelectHandler, false);
 
 window.addEventListener('hashchange', navigate);
 
-// let trn_json = localStorage.getItem('transactions');
-// window.transactions = trn_json ? JSON.parse(trn_json) : [];
-
 let start_balance_cents = 986673;
 let legacy_cutoff = '2025-04';
 
@@ -28,48 +25,49 @@ let categories = [
 ];
 
 // legacy pseudo-transaction from old spreadsheets (really just month summaries per category)
-window.transactions = [
-  {"id": "1", "date": "2024-09-01", "amount": 109590, "categories": [{"category_id": 0, "amount": 109590}]},
-  {"id": "2", "date": "2024-10-01", "amount": 174589, "categories": [{"category_id": 0, "amount": 174589}]},
-  {"id": "3", "date": "2024-11-01", "amount": 114460, "categories": [{"category_id": 0, "amount": 114460}]},
-  {"id": "4", "date": "2024-12-01", "amount": 164193, "categories": [{"category_id": 0, "amount": 164193}]},
-  {"id": "5", "date": "2025-01-01", "amount": 294205, "categories": [{"category_id": 0, "amount": 294205}]},
-  {"id": "6", "date": "2025-02-01", "amount": 211455, "categories": [{"category_id": 0, "amount": 211455}]},
-  {"id": "7", "date": "2025-03-01", "amount": 214717, "categories": [{"category_id": 0, "amount": 214717}]},
-  {"id": "8", "date": "2024-09-01", "amount": -3298, "categories": [{"category_id": 2, "amount": -3298}]},
-  {"id": "9", "date": "2024-10-01", "amount": -0, "categories": [{"category_id": 2, "amount": -0}]},
-  {"id": "10", "date": "2024-11-01", "amount": -7537, "categories": [{"category_id": 2, "amount": -7537}]},
-  {"id": "11", "date": "2024-12-01", "amount": -3298, "categories": [{"category_id": 2, "amount": -3298}]},
-  {"id": "12", "date": "2025-01-01", "amount": -7538, "categories": [{"category_id": 2, "amount": -7538}]},
-  {"id": "13", "date": "2025-02-01", "amount": -1884, "categories": [{"category_id": 2, "amount": -1884}]},
-  {"id": "14", "date": "2025-03-01", "amount": -4711, "categories": [{"category_id": 2, "amount": -4711}]},
-  {"id": "15", "date": "2024-09-01", "amount": -0, "categories": [{"category_id": 3, "amount": -0}]},
-  {"id": "16", "date": "2024-10-01", "amount": -92649, "categories": [{"category_id": 3, "amount": -92649}]},
-  {"id": "17", "date": "2024-11-01", "amount": -142252, "categories": [{"category_id": 3, "amount": -142252}]},
-  {"id": "18", "date": "2024-12-01", "amount": -75635, "categories": [{"category_id": 3, "amount": -75635}]},
-  {"id": "19", "date": "2025-01-01", "amount": -55908, "categories": [{"category_id": 3, "amount": -55908}]},
-  {"id": "20", "date": "2025-02-01", "amount": -129569, "categories": [{"category_id": 3, "amount": -129569}]},
-  {"id": "21", "date": "2025-03-01", "amount": -74966, "categories": [{"category_id": 3, "amount": -74966}]},
-  {"id": "22", "date": "2025-01-01", "amount": -2439, "categories": [{"category_id": 6, "amount": -2439}]},
-  {"id": "23", "date": "2024-09-01", "amount": -20295, "categories": [{"category_id": 4, "amount": -20295}]},
-  {"id": "24", "date": "2024-10-01", "amount": -34896, "categories": [{"category_id": 4, "amount": -34896}]},
-  {"id": "25", "date": "2024-11-01", "amount": -37414, "categories": [{"category_id": 4, "amount": -37414}]},
-  {"id": "26", "date": "2024-12-01", "amount": -7974, "categories": [{"category_id": 4, "amount": -7974}]},
-  {"id": "27", "date": "2025-01-01", "amount": -37382, "categories": [{"category_id": 4, "amount": -37382}]},
-  {"id": "28", "date": "2025-02-01", "amount": -41233, "categories": [{"category_id": 4, "amount": -41233}]},
-  {"id": "29", "date": "2025-03-01", "amount": -28853, "categories": [{"category_id": 4, "amount": -28853}]},
-  {"id": "30", "date": "2024-10-01", "amount": -1141, "categories": [{"category_id": 5, "amount": -1141}]},
-  {"id": "31", "date": "2025-01-01", "amount": -28031, "categories": [{"category_id": 5, "amount": -28031}]},
-  {"id": "32", "date": "2024-09-01", "amount": -11728, "categories": [{"category_id": 1, "amount": -11728}]},
-  {"id": "33", "date": "2024-10-01", "amount": -11728, "categories": [{"category_id": 1, "amount": -11728}]},
-  {"id": "34", "date": "2024-11-01", "amount": -11728, "categories": [{"category_id": 1, "amount": -11728}]},
-  {"id": "35", "date": "2024-12-01", "amount": -11728, "categories": [{"category_id": 1, "amount": -11728}]},
-  {"id": "36", "date": "2025-01-01", "amount": -11728, "categories": [{"category_id": 1, "amount": -11728}]},
-  {"id": "37", "date": "2025-02-01", "amount": -11728, "categories": [{"category_id": 1, "amount": -11728}]},
-  {"id": "38", "date": "2025-03-01", "amount": -11478, "categories": [{"category_id": 1, "amount": -11478}]},
+let trn_json = localStorage.getItem('transactions');
+window.transactions = trn_json ? JSON.parse(trn_json) : [
+  {"id": "1", "date": "2024-09-01", "amount": 109590, "splits": [{"category_id": 0, "amount": 109590}]},
+  {"id": "2", "date": "2024-10-01", "amount": 174589, "splits": [{"category_id": 0, "amount": 174589}]},
+  {"id": "3", "date": "2024-11-01", "amount": 114460, "splits": [{"category_id": 0, "amount": 114460}]},
+  {"id": "4", "date": "2024-12-01", "amount": 164193, "splits": [{"category_id": 0, "amount": 164193}]},
+  {"id": "5", "date": "2025-01-01", "amount": 294205, "splits": [{"category_id": 0, "amount": 294205}]},
+  {"id": "6", "date": "2025-02-01", "amount": 211455, "splits": [{"category_id": 0, "amount": 211455}]},
+  {"id": "7", "date": "2025-03-01", "amount": 214717, "splits": [{"category_id": 0, "amount": 214717}]},
+  {"id": "8", "date": "2024-09-01", "amount": -3298, "splits": [{"category_id": 2, "amount": -3298}]},
+  {"id": "9", "date": "2024-10-01", "amount": -0, "splits": [{"category_id": 2, "amount": -0}]},
+  {"id": "10", "date": "2024-11-01", "amount": -7537, "splits": [{"category_id": 2, "amount": -7537}]},
+  {"id": "11", "date": "2024-12-01", "amount": -3298, "splits": [{"category_id": 2, "amount": -3298}]},
+  {"id": "12", "date": "2025-01-01", "amount": -7538, "splits": [{"category_id": 2, "amount": -7538}]},
+  {"id": "13", "date": "2025-02-01", "amount": -1884, "splits": [{"category_id": 2, "amount": -1884}]},
+  {"id": "14", "date": "2025-03-01", "amount": -4711, "splits": [{"category_id": 2, "amount": -4711}]},
+  {"id": "15", "date": "2024-09-01", "amount": -0, "splits": [{"category_id": 3, "amount": -0}]},
+  {"id": "16", "date": "2024-10-01", "amount": -92649, "splits": [{"category_id": 3, "amount": -92649}]},
+  {"id": "17", "date": "2024-11-01", "amount": -142252, "splits": [{"category_id": 3, "amount": -142252}]},
+  {"id": "18", "date": "2024-12-01", "amount": -75635, "splits": [{"category_id": 3, "amount": -75635}]},
+  {"id": "19", "date": "2025-01-01", "amount": -55908, "splits": [{"category_id": 3, "amount": -55908}]},
+  {"id": "20", "date": "2025-02-01", "amount": -129569, "splits": [{"category_id": 3, "amount": -129569}]},
+  {"id": "21", "date": "2025-03-01", "amount": -74966, "splits": [{"category_id": 3, "amount": -74966}]},
+  {"id": "22", "date": "2025-01-01", "amount": -2439, "splits": [{"category_id": 6, "amount": -2439}]},
+  {"id": "23", "date": "2024-09-01", "amount": -20295, "splits": [{"category_id": 4, "amount": -20295}]},
+  {"id": "24", "date": "2024-10-01", "amount": -34896, "splits": [{"category_id": 4, "amount": -34896}]},
+  {"id": "25", "date": "2024-11-01", "amount": -37414, "splits": [{"category_id": 4, "amount": -37414}]},
+  {"id": "26", "date": "2024-12-01", "amount": -7974, "splits": [{"category_id": 4, "amount": -7974}]},
+  {"id": "27", "date": "2025-01-01", "amount": -37382, "splits": [{"category_id": 4, "amount": -37382}]},
+  {"id": "28", "date": "2025-02-01", "amount": -41233, "splits": [{"category_id": 4, "amount": -41233}]},
+  {"id": "29", "date": "2025-03-01", "amount": -28853, "splits": [{"category_id": 4, "amount": -28853}]},
+  {"id": "30", "date": "2024-10-01", "amount": -1141, "splits": [{"category_id": 5, "amount": -1141}]},
+  {"id": "31", "date": "2025-01-01", "amount": -28031, "splits": [{"category_id": 5, "amount": -28031}]},
+  {"id": "32", "date": "2024-09-01", "amount": -11728, "splits": [{"category_id": 1, "amount": -11728}]},
+  {"id": "33", "date": "2024-10-01", "amount": -11728, "splits": [{"category_id": 1, "amount": -11728}]},
+  {"id": "34", "date": "2024-11-01", "amount": -11728, "splits": [{"category_id": 1, "amount": -11728}]},
+  {"id": "35", "date": "2024-12-01", "amount": -11728, "splits": [{"category_id": 1, "amount": -11728}]},
+  {"id": "36", "date": "2025-01-01", "amount": -11728, "splits": [{"category_id": 1, "amount": -11728}]},
+  {"id": "37", "date": "2025-02-01", "amount": -11728, "splits": [{"category_id": 1, "amount": -11728}]},
+  {"id": "38", "date": "2025-03-01", "amount": -11478, "splits": [{"category_id": 1, "amount": -11478}]},
 ];
 
-let legacy_trn_cats = {
+let legacy_trn_splits = {
   "00002061470000036100": [{"category_id": 2, "amount": -3123}, {"category_id": 3, "amount": -74000}],
   "00002073640000034703": [{"category_id": 2, "amount": -3513}, {"category_id": 3, "amount": -109322}],
   "00002095980000039276": [{"category_id": 2, "amount": -3904}, {"category_id": 3, "amount": -105164}],
@@ -83,21 +81,23 @@ let legacy_trn_cats = {
 
 let auto_cat_rules = [
   {pattern: "BANKCARD 1161 MTOT", category_id: 0},
-  {pattern: "BHAM TECH FOOD SERVICE", category_id: 4},
   {pattern: "DEPOSIT BRANCH 0362", category_id: 0},
+  {pattern: "INTEREST PAYMENT", category_id: 0},
+  {pattern: "RELIAFUND INC DEPOSIT", category_id: 0},
   {pattern: "GIVING FIRE ACH FEES", category_id: 1},
   {pattern: "GOOGLE *GSUITE", category_id: 1},
   {pattern: "GOOGLE GSUITE", category_id: 1},
   {pattern: "GUSTO FEE", category_id: 1},
   {pattern: "GUSTO TLR", category_id: 1},
+  {pattern: "BHAM TECH FOOD SERVICE", category_id: 4},
   {pattern: "HANA TERIYAKI", category_id: 4},
-  {pattern: "INTEREST PAYMENT", category_id: 0},
   {pattern: "MAC FOOD PAVI", category_id: 4},
   {pattern: "PAPA JOHN", category_id: 4},
   {pattern: "SAFEWAY", category_id: 4},
   {pattern: "SUBWAY", category_id: 4},
-  {pattern: "RELIAFUND INC DEPOSIT", category_id: 0},
   {pattern: "TACO TIME", category_id: 4},
+  {pattern: "MI RANCHO", category_id: 4},
+  {pattern: "COSTCO WHSE", category_id: 4},
   {pattern: "TIMEKEEPERS", category_id: 5},
 ];
 
@@ -149,7 +149,7 @@ async function onFileLoad(reader, file, e) {
   let new_transactions = parseOFXQFX(text);
 
   // don't import anything before the legacy cutoff (April 2025)
-  // since these are already in the legacy summary data
+  // since these are in the legacy summary data
   new_transactions = new_transactions.filter(trn => trn.date >= legacy_cutoff);
 
   // build index of preexisting transactions
@@ -157,10 +157,8 @@ async function onFileLoad(reader, file, e) {
   for (let trn of window.transactions)
     idx[trn.id] = trn;
 
-  // count records added
+  // iterate new transactions & add ones that aren't preexisting
   let add_trns = [];
-
-  // iterate new transactions & add/update preexisting ones
   for (let new_trn of new_transactions) {
     let old_trn = idx[new_trn.id];
     if (old_trn) {
@@ -173,38 +171,32 @@ async function onFileLoad(reader, file, e) {
     }
   }
 
-  window.transactions.sort((a, b) => a.date - b.date);
+  window.transactions.sort((a, b) => a.date == b.date ? 0 : (a.date < b.date ? -1 : 1));
   
-  localStorage.setItem('transactions', JSON.stringify(window.transactions, null, 2));
-  alert(`Added ${add_trns.length} transactions (${new_transactions.length - add_trns.length} were already imported) from ${file.name} import`);
-
-  let legacy_cat_ct = 0;
-  let auto_cat_ct = 0;
   for (let trn of add_trns) {
-    if (trn.id in legacy_trn_cats) {
-      trn.categories = legacy_trn_cats[trn.id];
-      legacy_cat_ct++;
+    if (trn.id in legacy_trn_splits) {
+      trn.splits = legacy_trn_splits[trn.id];
     }
     else {
       // the first rule that matches is the one that "wins"
       for (let rule of auto_cat_rules) {
         if (trn.description.toUpperCase().includes(rule.pattern)) {
-          trn.categories = [{category_id: rule.category_id, amount: trn.amount}];
-          auto_cat_ct++;
+          trn.splits = [{category_id: rule.category_id, amount: trn.amount}];
           break;
         }
       }
     }
   }
 
-  if (legacy_cat_ct)
-    alert(`Assigned categories to ${legacy_cat_ct} transactions based on legacy data`);
-  if (auto_cat_ct)
-    alert(`Auto-assigned categories to ${auto_cat_ct} transactions based on rules`);
+  saveTransactions();
 
   navigate();
   return;
 };
+
+function saveTransactions() {
+  localStorage.setItem('transactions', JSON.stringify(window.transactions, null, 2));
+}
 
 // sample OFX files available at https://github.com/wesabe/fixofx/tree/master/test/fixtures
 // QFX is a quicken-specific extension that adds stuff, but we should only be relying on core tags/attributes
@@ -244,7 +236,7 @@ function parseOFXQFX(text) {
   parser.onclosetag = function (tag_name) {
     if (tag_name == 'STMTTRN') {
       // ensure every record has a category; default to -1 (uncategorized)
-      curr_trans.categories = [{category_id: -1, amount: curr_trans.amount}];
+      curr_trans.splits = [{category_id: -1, amount: curr_trans.amount}];
       transactions.push(curr_trans);
       curr_trans = null;
     }
@@ -277,7 +269,7 @@ function annualReport(year_1) {
   // pre-calculate all relevant categories
   let category_ids = [];
   for (let record of year_records)
-    for (let item of record.categories)
+    for (let item of record.splits)
       if (!category_ids.includes(item.category_id))
         category_ids.push(item.category_id);
 
@@ -370,35 +362,202 @@ function monthReport(month) {
 
   let category_ids = [];
   for (let t of trns) {
-    for (let cat of t.categories) {
+    for (let cat of t.splits) {
       if (!category_ids.includes(cat.category_id))
         category_ids.push(cat.category_id);
     }
   }
   let cats = categories.filter(cat => category_ids.includes(cat.id));
 
+  document.title = `${month} Month Details`;
   let month_name = month_names[month.slice(-2)];
-  html = `<p>${trns.length} transactions for the month of ${month_name}</p>`;
+  html = `<h3>${document.title}</h3>
+    <p>${trns.length} transactions for the month of ${month_name}</p>`;
 
-  for (let cat of cats) {
-    let records = filterRecords(trns, {month, category_id: cat.id});
+  html += `<div style="width: 75px"></div>
+    <table class="table" style="table-layout: fixed; width: 100%">`;
+    // html += '<tr><td style="width: 100px"></td><td style="width: 85px"></td><td class="action-btn" style="width: 200px"></td><td></td></tr>';
+  html += '<colgroup><col style="width: 100px"><col style="width: 85px"><col class="action-btn"><col></col></colgroup>';
+  for (let curr_cat of cats) {
+    let records = filterRecords(trns, {month, category_id: curr_cat.id});
     let cents = sumAmounts(records);
 
-    html += `<p>${cat.name}: ${displayCents(cents)}</p>`;
-    html += transactionsToList(records);
+    html += `<tr><th colspan="4">${curr_cat.name}: ${displayCents(cents)}</th></tr>`;
+    html += records.map(function(record) {
+      return `<tr>
+        <td>${toUSDate(record.date)}</td>
+        <td class="amt">${displayCents(record.amount)}</td>
+        <td class="action-btn"><div style="display: inline-block" class="dropdown">
+          <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            ${curr_cat.name}
+          </button>
+          ${renderCatDropdown(curr_cat, record.ix, record.id)}
+          <span class="badge text-bg-${record.split ? 'danger' : 'secondary'} split ${record.split ? 'is-split' : ''}" data-bs-toggle="modal" data-bs-target="#split_modal" data-trn-id="${record.id}">Split</span>
+        </div></td>
+        <td style="white-space: nowrap">${_.escape(record.description)}</td>
+        </tr>`;
+    }).join('\n');
   }
+  html += '</table>';
+
   $('report').innerHTML = html;
-  document.title = $('report_header').innerText = `${month} Month Details`;
 }
 
-function transactionsToList(records) {
-  let html = '<ul>';
-  html += records.map(function(record) {
-    let date_parts = record.date.split('-');
-    let us_date = `${date_parts[1]}/${date_parts[2]}/${date_parts[0]}`;
-    return `<li>${us_date} ${displayCents(record.amount)} ${_.escape(record.description)}</li>`;
-  }).join('\n');
-  return html + '</ul>';
+function renderCatDropdown(curr_cat, split_ix, trn_id) {
+  let prev_cat = null;
+  return `<ul class="dropdown-menu">
+    ${categories.map(cat => {
+      // track the difference in category types, to inject divider
+      let html = prev_cat && prev_cat.type != cat.type ? '<li><hr class="dropdown-divider"></li>' : '';
+      prev_cat = cat;
+
+      return html + `<li>
+        <a class="dropdown-item cat ${cat == curr_cat ? 'active' : ''}" href="${location.hash}" data-cat-id="${cat.id}" data-trn-id="${trn_id}", data-split-ix="${split_ix}">
+          ${cat.name}
+        </a></li>`;
+    }).join('')}
+  </ul>`;
+}
+
+// `var` instead of `let` for easier debugging
+var modal_trn = null; // live ref to transaction being edited
+var modal_splits = null; // deep clone, so splits can be thrown away on 'cancel'
+var currency_re = /^-?\d+(\.\d\d)?$/;
+
+function renderSplitModal() {
+  $('split_modal_title').innerText = `${modal_trn.description} (${toUSDate(modal_trn.date)})`;
+
+  let splits_sum = sumAmounts(modal_splits);
+  let html = `
+    <form class="was-validated">
+      ${modal_splits.map((split, split_ix) => {
+        let cat = categories.find(cat => cat.id == split.category_id);
+        return `<div class="input-group mb-3">
+          <span class="input-group-text">$</span>
+          <input type="text" class="form-control split-amount" inputmode="numeric" pattern="${currency_re.source}" value="${displayCents(split.amount)}">
+          <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${cat.name}</button>
+          ${renderCatDropdown(cat, split_ix)}
+          <button type="button" class="btn btn-outline-danger del" data-split-ix="${split_ix}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+            </svg>
+          </button>
+        </div>`
+      }).join('')}
+        <div class="mb-3 text-end">
+          <button type="button" class="btn btn-success add">
+            <svg class="bi" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+            </svg>
+            Add Split
+          </button>
+        </div>
+        <div class="mb-3">
+          <label for="split_modal_total" class="col-form-label">Total</label>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input type="text" id="split_modal_total" class="form-control" aria-describedby="total_help_inline" value="${displayCents(splits_sum)}" disabled readonly>
+            <div id="total_help_inline" class="form-text invalid-feedback text-start">
+              Must total ${displayCents(modal_trn.amount)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>`;
+  $('split_modal_body').innerHTML = html;
+}
+
+// recalc total and update total validation
+$('split_modal_body').addEventListener('input', function() {
+  validateSplitModal();
+});
+
+function validateSplitModal() {
+  let inputs = $('split_modal_body').querySelectorAll('input.split-amount');
+  let splits_sum = 0;
+  for (let input of inputs) {
+    // parseFloat() allows 3 digits after the decimal; currency_re doesn't
+    if (currency_re.test(input.value)) {
+      let val = parseFloat(input.value);
+      splits_sum += Math.round(val * 100);
+    }
+    else {
+      splits_sum = Number.NaN;
+    }
+  }
+
+  $('split_modal_total').value = isNaN(splits_sum) ? '' : displayCents(splits_sum);
+  if (splits_sum == modal_trn.amount) {
+    $('split_modal_total').classList.remove('is-invalid');
+    $('split_modal_submit').removeAttribute('disabled');
+  }
+  else {
+    $('split_modal_total').classList.add('is-invalid');
+    $('split_modal_submit').setAttribute('disabled', 'disabled');
+  }
+}
+
+$('split_modal_submit').addEventListener('click', function() {
+  modal_trn.splits = modal_splits;
+  saveTransactions();
+  bootstrap.Modal.getInstance($('split_modal')).hide();
+  monthReport(location.hash.replace(/^#/, ''));
+});
+
+let click_events = {
+  '#report a.cat': onCategoryClick,
+  '#report span.split': onSplitClick,
+  '#split_modal a.cat': onSplitCategoryClick,
+  '#split_modal button.add': onSplitAdd,
+  '#split_modal button.del': onSplitDel,
+};
+
+// TODO: move this to framework/helper function at the bottom
+// and organize one set of event handlers on the #report and one on the #split_modal
+// follow backbone & include the event name before the selector
+document.addEventListener('click', function(evt) {
+  for (let sel in click_events) {
+    if (evt.target.matches(sel)) {
+      click_events[sel](evt.target.dataset, evt.target, evt);
+      break;
+    }
+    else if (evt.target.parentNode.matches(sel)) {
+      click_events[sel](evt.target.parentNode.dataset, evt.target.parentNode, evt);
+      break;
+    }
+  }
+});
+
+function onCategoryClick(data) {
+  let trn = transactions.find(trn => trn.id == data.trnId);
+  trn.splits[data.splitIx].category_id = parseInt(data.catId);
+  saveTransactions();
+  navigate();
+}
+
+function onSplitCategoryClick(data) {
+  modal_splits[data.splitIx].category_id = parseInt(data.catId);
+  renderSplitModal();
+}
+
+function onSplitClick(data) {
+  let trn = transactions.find(trn => trn.id == data.trnId);
+  modal_trn = trn;
+  modal_splits = trn.splits.map(split => _.clone(split));
+  renderSplitModal();
+}
+
+function onSplitAdd() {
+  modal_splits.push({category_id: -1, amount: 0});
+  renderSplitModal();
+}
+
+function onSplitDel(data) {
+  let ix = parseInt(data.splitIx);
+  modal_splits.splice(ix, 1);
+  renderSplitModal();
+  validateSplitModal();
 }
 
 function getYear(dt_str) {
@@ -409,6 +568,11 @@ function getYearMonth(dt_str) {
   return dt_str.slice(0, 7);
 }
 
+function toUSDate(iso_date) {
+  let date_parts = iso_date.split('-');
+  return `${date_parts[1]}/${date_parts[2]}/${date_parts[0]}`;
+}
+
 function filterRecords(records, filters) {
   if (filters.month)
     records = records.filter(r => getYearMonth(r.date) == filters.month);
@@ -417,10 +581,14 @@ function filterRecords(records, filters) {
   // can't check if (filters.category_id) since 0 is a valid category_id
   if ('category_id' in filters) {
     filtered_records = [];
-    for (let record of records)
-      for (let item of record.categories)
+    for (let record of records) {
+      let ix = 0;
+      for (let item of record.splits) {
         if (item.category_id == filters.category_id)
-          filtered_records.push({...item, description: record.description, date: record.date});
+          filtered_records.push({...item, id: record.id, description: record.description, date: record.date, split: record.splits.length > 1, ix});
+        ix++;
+      }
+    }
   }
   else {
     filtered_records = records;
@@ -454,4 +622,8 @@ function assert(val) {
 
 function $(id) {
   return document.getElementById(id);
+}
+
+function $$(sel) {
+  return document.querySelector(sel);
 }

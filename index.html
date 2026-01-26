@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>BTC Salt Reports</title>
+  <title>Financial Tracking &amp; Reports</title>
   <link href="vendor/bootstrap-5.3.8.css" rel="stylesheet">
   <style>
     body { margin: 1em }
@@ -22,9 +22,12 @@
       border-style: solid;
       box-shadow: inset 0 3px 4px #888;
     }
+    col.action-btn { width: 200px }
     @media print {
       #filedrag { display: none }
       .btn { display: none }
+      td.action-btn { display: none }
+      col.action-btn { width: 100% !important }
     }
 
     td { width: 85px }
@@ -34,15 +37,41 @@
     th.category { text-align: left; margin-left: 1em; white-space: nowrap}
     th.sidebar { text-align: left }
     th.separator { height: 8px }
+    .split { cursor: pointer; display: none }
+    .split.is-split { display: inline }
+    td:hover .split { display: inline }
+    svg.bi {
+      vertical-align: -0.125em; /* Adjust as needed */
+    }
   </style>
   <script src="vendor/underscore.js"></script>
   <script src="vendor/sax.js"></script>
+  <script src="vendor/popper.min.js"></script>
+  <script src="vendor/bootstrap-5.3.8.js"></script>
 </head>
 <body>
   <div id="report">
   </div>
   <div id="filedrag" style="font-weight: bold; text-align: center; padding: 1em 0; margin: 1em 0; color: #555; border: 2px dashed #555; border-radius: 7px; cursor: default">
     Drop .OFX or .QFX file here
+  </div>
+
+  <div class="modal fade" id="split_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 id="split_modal_title" class="modal-title fs-5">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="split_modal_body" class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" id="split_modal_submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
   </div>
   <script src="financial.js"></script>
 </body>
