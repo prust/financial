@@ -519,10 +519,10 @@ let click_events = {
 document.addEventListener('click', function(evt) {
   for (let sel in click_events) {
     let node = evt.target;
-    while (node && !node.matches(sel))
+    while (node && node.matches && !node.matches(sel))
       node = node.parentNode;
 
-    if (node) {
+    if (node && node.matches) {
       click_events[sel](node.dataset, node, evt);
       break;
     }
