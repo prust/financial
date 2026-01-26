@@ -518,12 +518,12 @@ let click_events = {
 // follow backbone & include the event name before the selector
 document.addEventListener('click', function(evt) {
   for (let sel in click_events) {
-    if (evt.target.matches(sel)) {
-      click_events[sel](evt.target.dataset, evt.target, evt);
-      break;
-    }
-    else if (evt.target.parentNode.matches(sel)) {
-      click_events[sel](evt.target.parentNode.dataset, evt.target.parentNode, evt);
+    let node = evt.target;
+    while (node && !node.matches(sel))
+      node = node.parentNode;
+
+    if (node) {
+      click_events[sel](node.dataset, node, evt);
       break;
     }
   }
