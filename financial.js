@@ -87,8 +87,10 @@ let auto_cat_rules = [
   {pattern: "GIVING FIRE ACH FEES", category_id: 1},
   {pattern: "GOOGLE *GSUITE", category_id: 1},
   {pattern: "GOOGLE GSUITE", category_id: 1},
+  {pattern: "GOOGLE WORKSPACE", category_id: 1},
   {pattern: "GUSTO FEE", category_id: 1},
   {pattern: "GUSTO TLR", category_id: 1},
+  {pattern: "QUICKEN INC", category_id: 1},
   {pattern: "BHAM TECH FOOD SERVICE", category_id: 4},
   {pattern: "HANA TERIYAKI", category_id: 4},
   {pattern: "MAC FOOD PAVI", category_id: 4},
@@ -98,7 +100,9 @@ let auto_cat_rules = [
   {pattern: "TACO TIME", category_id: 4},
   {pattern: "MI RANCHO", category_id: 4},
   {pattern: "COSTCO WHSE", category_id: 4},
+  {pattern: "PANDA EXPRESS", category_id: 4},
   {pattern: "TIMEKEEPERS", category_id: 5},
+  {pattern: "USPS PO", category_id: 5},
 ];
 
 navigate();
