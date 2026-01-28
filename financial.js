@@ -16,6 +16,7 @@ let categories = [
   {id: -1, name: '[Uncategorized]', type: 'expense'},
   {id: 2, name: 'Bookkeeper', type: 'expense'},
   {id: 3, name: 'Director', type: 'expense'},
+  {id: 10, name: 'Associate Director', type: 'expense'},
   {id: 6, name: 'Events', type: 'expense'},
   {id: 4, name: 'Food', type: 'expense'},
   {id: 5, name: 'Newsletter', type: 'expense'},
