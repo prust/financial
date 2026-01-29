@@ -312,6 +312,7 @@ function annualReport(year_1) {
       html += `<tr><th class="category">${cat.name}</th>`;
       for (let month of months) {
         let records = filterRecords(year_records, {month, category_id: cat.id});
+        let are_valid = records.every(trn => areSplitsValid(trn));
         let cents = sumAmounts(records);
         if (cat.type == 'expense')
           cents = -cents;
@@ -319,7 +320,7 @@ function annualReport(year_1) {
         if (!totals[cat_type][month])
           totals[cat_type][month] = 0;
         totals[cat_type][month] += cents;
-        html += `<td class="amt">${displayCents(cents)}</td>`;
+        html += `<td class="amt ${are_valid ? '' : 'invalid'}">${displayCents(cents)}</td>`;
       }
       html += '</tr>';
     }
@@ -389,9 +390,10 @@ function monthReport(month) {
 
     html += `<tr><th colspan="4">${curr_cat.name}: ${displayCents(cents)}</th></tr>`;
     html += records.map(function(record) {
+      let is_valid = areSplitsValid(record);
       return `<tr>
         <td>${toUSDate(record.date)}</td>
-        <td class="amt">${displayCents(record.amount)}</td>
+        <td class="amt ${is_valid ? '' : 'invalid'}">${displayCents(record.amount)}</td>
         <td class="action-btn"><div style="display: inline-block" class="dropdown">
           <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             ${curr_cat.name}
@@ -590,7 +592,7 @@ function filterRecords(records, filters) {
       let ix = 0;
       for (let item of record.splits) {
         if (item.category_id == filters.category_id)
-          filtered_records.push({...item, id: record.id, description: record.description, date: record.date, split: record.splits.length > 1, ix});
+          filtered_records.push({...item, id: record.id, description: record.description, date: record.date, split: record.splits.length > 1, ix, orig_trn: record});
         ix++;
       }
     }
@@ -600,6 +602,12 @@ function filterRecords(records, filters) {
   }
 
   return filtered_records;
+}
+
+function areSplitsValid(record) {
+  let trn = record.orig_trn || record;
+
+  return sumAmounts(trn.splits) == trn.amount;
 }
 
 function sumAmounts(records) {
