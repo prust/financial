@@ -439,7 +439,7 @@ function renderSplitModal() {
         let cat = categories.find(cat => cat.id == split.category_id);
         return `<div class="input-group mb-3">
           <span class="input-group-text">$</span>
-          <input type="text" class="form-control split-amount" inputmode="numeric" pattern="${currency_re.source}" value="${displayCents(split.amount)}">
+          <input type="text" class="form-control split-amount" inputmode="numeric" data-split-ix="${split_ix}" pattern="${currency_re.source}" value="${displayCents(split.amount)}">
           <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${cat.name}</button>
           ${renderCatDropdown(cat, split_ix)}
           <button type="button" class="btn btn-outline-danger del" data-split-ix="${split_ix}">
@@ -474,24 +474,24 @@ function renderSplitModal() {
 }
 
 // recalc total and update total validation
-$('split_modal_body').addEventListener('input', function() {
+$('split_modal_body').addEventListener('input', function(evt) {
+  let split_ix = evt.target.dataset.splitIx;
+  if (currency_re.test(evt.target.value)) {
+    let val = parseFloat(evt.target.value);
+    modal_splits[split_ix].amount = Math.round(val * 100);
+  }
   validateSplitModal();
 });
 
 function validateSplitModal() {
+  let are_all_inputs_valid = true;
   let inputs = $('split_modal_body').querySelectorAll('input.split-amount');
-  let splits_sum = 0;
   for (let input of inputs) {
-    // parseFloat() allows 3 digits after the decimal; currency_re doesn't
-    if (currency_re.test(input.value)) {
-      let val = parseFloat(input.value);
-      splits_sum += Math.round(val * 100);
-    }
-    else {
-      splits_sum = Number.NaN;
-    }
+    if (!currency_re.test(input.value))
+      are_all_inputs_valid = false;
   }
 
+  let splits_sum = are_all_inputs_valid ? sumAmounts(modal_splits) : Number.NaN;
   $('split_modal_total').value = isNaN(splits_sum) ? '' : displayCents(splits_sum);
   if (splits_sum == modal_trn.amount) {
     $('split_modal_total').classList.remove('is-invalid');
