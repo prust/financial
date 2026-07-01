@@ -177,7 +177,7 @@ async function onFileLoad(reader, file, e) {
   }
 
   window.transactions.sort((a, b) => a.date == b.date ? 0 : (a.date < b.date ? -1 : 1));
-  
+
   for (let trn of add_trns) {
     if (trn.id in legacy_trn_splits) {
       trn.splits = legacy_trn_splits[trn.id];
@@ -343,6 +343,10 @@ function annualReport(year_1) {
 
   html += '<tr><th class="sidebar">Balance</th>';
   let balance_cents = start_balance_cents;
+  let prev_records = transactions.filter(r => r.date < months[0]);
+  let prev_profit_loss = sumAmounts(prev_records);
+  balance_cents += prev_profit_loss;
+
   for (let month of months) {
     if (totals.income[month] || totals.expense[month]) {
       balance_cents += totals.income[month] - totals.expense[month];
@@ -354,7 +358,7 @@ function annualReport(year_1) {
     }
   }
   html += '</tr>';
-  
+
   html += '</table>';
   $('report').innerHTML = html;
 }
@@ -583,7 +587,7 @@ function toUSDate(iso_date) {
 function filterRecords(records, filters) {
   if (filters.month)
     records = records.filter(r => getYearMonth(r.date) == filters.month);
-  
+
   let filtered_records;
   // can't check if (filters.category_id) since 0 is a valid category_id
   if ('category_id' in filters) {
@@ -614,7 +618,7 @@ function sumAmounts(records) {
   let total = 0;
   for (let record of records)
     total += record.amount;
-  
+
   return total;
 }
 
